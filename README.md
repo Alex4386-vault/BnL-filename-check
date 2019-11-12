@@ -23,4 +23,3 @@ This program is distributed under [Hakurei Reimu Public License](https://github.
 
 ### 使用者 契約書 情報
 이 프로그램은 [博麗霊夢 共用使用 契約書](https://github.com/Alex4386/HRPL)에 依據하여 配布됩니다.
-
