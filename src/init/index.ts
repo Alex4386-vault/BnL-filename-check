@@ -11,7 +11,7 @@ export function windowInitializer(): BrowserWindow {
 
     mainWindow.loadFile("../web/index.html");
 
-    mainWindow.webContents.openDevTools();
+    //mainWindow.webContents.openDevTools();
 
     
     return mainWindow;
