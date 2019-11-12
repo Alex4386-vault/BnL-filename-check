@@ -5,6 +5,7 @@ This program will check your word or powerpoint document meets Prof. Kim won's *
 ## Stacks
 Built with  
 
+- Node.JS
 - TypeScript
 - Electron
 - REGular EXpression
