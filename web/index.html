@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BnL File Tester</title>
+    <style>
+
+        @import url('https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap');
+
+        :root {
+            /* Following Gachon University  Branding Guidelines */
+            --gachon-blue: #004E96;
+            --challenge-orange: #FCAF16;
+            --creation-skyblue: #00B9F2;
+            --change-green: #80C341;
+            --global-transition: .5s;
+        }
+
+        * {
+            word-break: keep-all;
+            text-rendering: optimizeLegibility;
+            font-family: "Do Hyeon", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: rgb(252, 240, 253);
+            margin: 0;
+            padding: 0;
+        }
+
+        .gachon-gradient {
+            /* Gachon University Color Scheme Gradient */
+            background: linear-gradient(to right,
+            var(--gachon-blue) 0%, var(--gachon-blue) 25%,
+            var(--challenge-orange) 25%, var(--challenge-orange) 50%,
+            var(--creation-skyblue) 50%, var(--creation-skyblue) 75%,
+            var(--change-green) 75%, var(--change-green) 100%);
+        }
+
+        .top {
+            height: 10px;
+            width: 100vw;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+        main {
+            padding: .5em;
+        }
+        .title {
+            text-align: center;
+            width: 450px;
+            margin: 0 auto;
+        }
+
+        .file-upload {
+            border: #000 dashed 2px;
+            background: rgb(140, 213, 255);
+            height: 200px;
+            transition: .5s;
+        }
+
+        .file-upload.highlight {
+            background: rgb(98, 255, 216);
+        }
+
+        .file-upload form {
+            padding: 1rem;
+            font-size: 2rem;
+        }
+
+        .file-upload form input {
+            font-size: 1rem;
+            font-family: "Do Hyeon", sans-serif;
+        }
+
+        .ok {
+            color: var(--gachon-blue);
+        }
+
+        .error {
+            color: rgb(128, 0, 0);
+        }
+
+        h1, h2 {
+            margin: .5em;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="top gachon-gradient"></div>
+    <main>
+        <div class="title">
+            <h1 class="italic">기업과 리더십<br>파일이름 확인기</h1>
+        </div>
+        <br>
+        <h2>파일 이름 확인</h2>
+        <div id="file-upload" class="file-upload">
+            <form>
+                <p>이곳으로 파일을 끌어다 놓거나, 파일을 선택하세요.</p>
+                <input type="file" id="the-file">
+            </form>
+        </div>
+        <br>
+        <h2>상태</h2>
+        <div id="status"></div>
+    </main>
+</body>
+<script>
+    const theRegularExpression = /^(\[|)([가-힣]{2,}-){2,}[가-힣]{2,}(\]|)\.(ppt(x|)|doc(x|))$/i
+    const fileUpload = document.getElementById("file-upload");
+    const manualFileUpload = document.getElementById("the-file");
+    const statusMonitor = document.getElementById('status');
+
+    ['dragover', 'dragenter'].forEach(eventName => {
+        fileUpload.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            fileUpload.classList.add("highlight");
+        });
+    });
+
+    fileUpload.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        fileUpload.classList.remove("highlight");
+    });
+    fileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        fileUpload.classList.remove("highlight");
+
+        fileProcess(e.dataTransfer.files[0]);
+    });
+
+    manualFileUpload.addEventListener("change", (e) => {
+        if (manualFileUpload.files.length > 0) {
+            fileProcess(manualFileUpload.files[0]);
+        }
+    })
+
+    function fileProcess(file) {
+        manualFileUpload.files[0] = file;
+        let fileName = file.name.normalize("NFC");
+        statusMonitor.innerHTML = "";
+
+        if (file.name !== file.name.normalize("NFC")) {
+            alert(`맥에서 올리고 있거나, Unicode Normalization 규격이 NFC 방식이 아닙니다.
+김원 교수님은 Windows를 사용하므로, Windows에서 업로드 하여 주시기 바랍니다.
+
+Unicode Normalization Method is not NFC,
+Since Prof. Kim Won uses Windows, Please upload in Windows Systems.`)
+            statusMonitor.innerHTML += "윈도우에서 업로드 필요<br>";
+        }
+
+        if (theRegularExpression.test(fileName)) {
+
+            statusMonitor.innerHTML += '<span class="ok">규격 정상</span>.';
+        } else {
+            statusMonitor.innerHTML += '<span class="error">규격 위반</span>, 5점 감점.';
+        }
+    }
+</script>
+</html>

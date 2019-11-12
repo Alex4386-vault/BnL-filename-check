@@ -1,0 +1,17 @@
+{
+  "name": "BnL-filename-check",
+  "version": "0.0.1",
+  "description": "Business and Leadership filename checker",
+  "main": "dist/",
+  "repository": "https://github.com/Alex4386/BnL-filename-check.git",
+  "author": "Alex4386 <psh010209@gmail.com>",
+  "license": "HRPL",
+  "dependencies": {
+    "electron": "^6.0.12",
+    "typescript": "^3.7.0-dev.20191014"
+  },
+  "scripts": {
+    "start": "tsc && electron dist/",
+    "watch": "tsc -w"
+  }
+}
